@@ -15,7 +15,6 @@ public static class ApiRoutes
         public const string DeleteComment = "DeleteComment";
         public const string CreateRate = "CreateRate";
         public const string DeleteRate = "DeleteRate";
-
     }
 
     public static class Category
@@ -26,10 +25,13 @@ public static class ApiRoutes
         public const string Update = "Update";
         public const string Delete = "Delete";
     }
+
     public static class Identity
     {
         public const string Register = "Register";
         public const string Login = "Login";
+        public const string Update = "Update";
+        public const string Delete = "Delete";
     }
 
     public static class Order

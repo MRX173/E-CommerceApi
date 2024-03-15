@@ -1,10 +1,11 @@
 ﻿using Application.Roles.Commands;
 using Application.Roles.Queries;
 using E_CommerceApp.Contracts.Roles.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_CommerceApp.Controllers;
-
+[Authorize]
 public class RolesController : BaseController
 {
     [HttpGet]

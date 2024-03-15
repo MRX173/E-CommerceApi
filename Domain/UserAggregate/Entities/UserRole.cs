@@ -6,9 +6,13 @@ namespace Domain.UserAggregate.Entities;
 
 public class UserRole : IdentityRole<Guid>
 {
+    private readonly List<Permission> _permissions = new List<Permission>();
+
     private UserRole()
     {
     }
+
+    public IEnumerable<Permission> Permissions => _permissions;
 
     public static UserRole Create(string roleName)
     {
@@ -33,6 +37,7 @@ public class UserRole : IdentityRole<Guid>
             exception.ValidationErrors.Add(" role name is not valid");
             throw exception;
         }
+
         Name = roleName;
         return this;
     }

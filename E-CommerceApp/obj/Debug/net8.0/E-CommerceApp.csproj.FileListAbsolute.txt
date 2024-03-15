@@ -183,4 +183,3 @@ C:\Users\mohamed samir\RiderProjects\E-CommerceApp\E-CommerceApp\bin\Debug\net8.
 C:\Users\mohamed samir\RiderProjects\E-CommerceApp\E-CommerceApp\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\mohamed samir\RiderProjects\E-CommerceApp\E-CommerceApp\bin\Debug\net8.0\Application.dll
 C:\Users\mohamed samir\RiderProjects\E-CommerceApp\E-CommerceApp\bin\Debug\net8.0\Application.pdb
-C:\Users\mohamed samir\RiderProjects\E-CommerceApp\E-CommerceApp\obj\Debug\net8.0\E-CommerceApp.sourcelink.json

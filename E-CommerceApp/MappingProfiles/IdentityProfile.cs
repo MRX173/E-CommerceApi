@@ -14,5 +14,6 @@ public sealed class IdentityProfile : Profile
         CreateMap<IdentityUserDto, IdentityResponse>();
         CreateMap<CustumUser, IdentityUserDto>();
         CreateMap<LoginRequest, LoginUserCommand>();
+        CreateMap<UpdateRequest, UpdateUserCommand>();
     }
 }

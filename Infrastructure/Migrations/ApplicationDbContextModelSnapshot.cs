@@ -401,6 +401,41 @@ namespace Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Domain.UserAggregate.Entities.Permission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Permission");
+                });
+
+            modelBuilder.Entity("Domain.UserAggregate.Entities.RolePermission", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserRoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RoleId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("UserRoleId");
+
+                    b.ToTable("RolePermission");
+                });
+
             modelBuilder.Entity("Domain.UserAggregate.Entities.UserPayment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -874,6 +909,21 @@ namespace Infrastructure.Migrations
                         });
 
                     b.Navigation("UserAddress");
+                });
+
+            modelBuilder.Entity("Domain.UserAggregate.Entities.RolePermission", b =>
+                {
+                    b.HasOne("Domain.UserAggregate.Entities.Permission", null)
+                        .WithMany()
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.UserAggregate.Entities.UserRole", null)
+                        .WithMany()
+                        .HasForeignKey("UserRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.UserAggregate.Entities.UserPayment", b =>

@@ -3095,8 +3095,7 @@
     "net8.0": [
       "AutoMapper >= 13.0.1",
       "Infrastructure >= 1.0.0",
-      "MediatR >= 12.2.0",
-      "Microsoft.Extensions.Logging.Abstractions >= 8.0.0"
+      "MediatR >= 12.2.0"
     ]
   },
   "packageFolders": {
@@ -3149,10 +3148,6 @@
           "MediatR": {
             "target": "Package",
             "version": "[12.2.0, )"
-          },
-          "Microsoft.Extensions.Logging.Abstractions": {
-            "target": "Package",
-            "version": "[8.0.0, )"
           }
         },
         "imports": [

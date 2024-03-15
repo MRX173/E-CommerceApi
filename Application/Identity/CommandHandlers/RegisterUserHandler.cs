@@ -17,19 +17,21 @@ namespace Application.Identity.CommandHandlers;
 
 public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, OperationResult<IdentityUserDto>>
 {
-    private readonly UserManager<CustumUser> _userManager;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly UserManager<CustumUser> _userManager;
     private readonly JwtService _jwtService;
+    private readonly UserServices _userServices;
     private OperationResult<IdentityUserDto> _result = new();
     private readonly IMapper _mapper;
 
-    public RegisterUserHandler(UserManager<CustumUser> userManager, IUnitOfWork unitOfWork, JwtService jwtService,
-        IMapper mapper)
+    public RegisterUserHandler(IUnitOfWork unitOfWork, JwtService jwtService,
+        IMapper mapper, UserServices userServices, UserManager<CustumUser> userManager)
     {
-        _userManager = userManager;
         _unitOfWork = unitOfWork;
         _jwtService = jwtService;
         _mapper = mapper;
+        _userServices = userServices;
+        _userManager = userManager;
     }
 
     public async Task<OperationResult<IdentityUserDto>> Handle(RegisterUserCommand request,
@@ -37,12 +39,20 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Operatio
     {
         try
         {
-            CustumUser? isExisting = await _userManager.FindByEmailAsync(request.EmailAddress);
+            var isExisting = await _userServices.GetUserByEmail(request.EmailAddress);
             if (isExisting != null)
+            {
                 _result.AddError(ErrorCode.UserAlreadyExists, "Email already exists");
+                return _result;
+            }
 
-            CustumUser user = await CreateUserIdentity(request);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            CustumUser? user = await CreateUserIdentity(request);
+            var roleResult = await _userServices.AddUserToRole(user, Role.Admin.ToString());
+            if (!roleResult.Succeeded)
+            {
+                roleResult.Errors.ToList().ForEach(x =>
+                    _result.AddError(ErrorCode.IdentityCreationFailed, x.Description));
+            }
 
             _result.Payload = _mapper.Map<IdentityUserDto>(user);
             _result.Payload.FirstName = user.FirstName;
@@ -58,21 +68,22 @@ public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Operatio
         return _result;
     }
 
-    private async Task<CustumUser> CreateUserIdentity(RegisterUserCommand request)
+    private async Task<CustumUser?> CreateUserIdentity(RegisterUserCommand request)
     {
         UserAddress userAddress = UserAddress.CreateUserAddress(request.AddressLine, request.City, request.Country);
-        CustumUser user = CustumUser.CreateUser(request.FirstName, request.LastName,
+        CustumUser? user = CustumUser.CreateUser(request.FirstName, request.LastName,
             userAddress, request.EmailAddress, request.PhoneNumber);
-        IdentityResult result = await _userManager.CreateAsync(user, request.Password);
+        IdentityResult result = await _userServices.CreateUser(user, request.Password);
         if (!result.Succeeded)
         {
             result.Errors.ToList().ForEach(x =>
                 _result.AddError(ErrorCode.IdentityCreationFailed, x.Description));
         }
+
         return user;
     }
 
-    private string GetJwtToken(CustumUser user)
+    private string GetJwtToken(CustumUser? user)
     {
         ClaimsIdentity claims = new ClaimsIdentity(new Claim[]
         {

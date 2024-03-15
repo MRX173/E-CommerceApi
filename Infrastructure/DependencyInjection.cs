@@ -1,6 +1,8 @@
 ﻿using Domain.Abstractions;
 using Infrastructure.Abstraction;
+using Infrastructure.Authentication;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure;
@@ -17,6 +19,8 @@ public static class DependencyInjection
         services.AddScoped<IUserPaymentRepository, UserPaymentRepository>();
         services.AddScoped<IShoppingSessionRepository, ShoppingSessionRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
         services.AddScoped<IDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         return services;
     }

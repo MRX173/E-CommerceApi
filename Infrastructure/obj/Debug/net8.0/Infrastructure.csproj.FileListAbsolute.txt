@@ -15,3 +15,5 @@ C:\Users\mohamed samir\RiderProjects\E-CommerceApp\Infrastructure\obj\Debug\net8
 C:\Users\mohamed samir\RiderProjects\E-CommerceApp\Infrastructure\obj\Debug\net8.0\ref\Infrastructure.dll
 C:\Users\mohamed samir\RiderProjects\E-CommerceApp\Infrastructure\bin\Debug\net8.0\Infrastructure.runtimeconfig.json
 C:\Users\mohamed samir\RiderProjects\E-CommerceApp\Infrastructure\obj\Debug\net8.0\Infrastructure.genruntimeconfig.cache
+C:\Users\mohamed samir\RiderProjects\E-CommerceApp\Infrastructure\bin\Debug\net8.0\Microsoft.AspNetCore.Authorization.dll
+C:\Users\mohamed samir\RiderProjects\E-CommerceApp\Infrastructure\bin\Debug\net8.0\Microsoft.AspNetCore.Metadata.dll

@@ -59,12 +59,12 @@ public sealed class CustumUser : IdentityUser<Guid>
     }
 
 
-    public static CustumUser CreateUser(string firstName, string lastName, UserAddress userAddress
+    public static CustumUser? CreateUser(string firstName, string lastName, UserAddress userAddress
         , string EmailAddress, string phoneNumber)
     {
         CustumUserValidator validator = new CustumUserValidator();
 
-        CustumUser userToValidate = new CustumUser
+        CustumUser? userToValidate = new CustumUser
         {
             Id = Guid.NewGuid(),
             FirstName = firstName,

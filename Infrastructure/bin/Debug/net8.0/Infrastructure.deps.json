@@ -14,7 +14,8 @@
           "Microsoft.EntityFrameworkCore": "8.0.1",
           "Microsoft.EntityFrameworkCore.Design": "8.0.1",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.1",
-          "Microsoft.EntityFrameworkCore.Tools": "8.0.1"
+          "Microsoft.EntityFrameworkCore.Tools": "8.0.1",
+          "Microsoft.AspNetCore.Authorization": "8.0.0.0"
         },
         "runtime": {
           "Infrastructure.dll": {}
@@ -1025,6 +1026,22 @@
         "runtime": {
           "Domain.dll": {}
         }
+      },
+      "Microsoft.AspNetCore.Authorization/8.0.0.0": {
+        "runtime": {
+          "Microsoft.AspNetCore.Authorization.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.123.58008"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Metadata/8.0.0.0": {
+        "runtime": {
+          "Microsoft.AspNetCore.Metadata.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.123.58008"
+          }
+        }
       }
     }
   },
@@ -1624,6 +1641,16 @@
     },
     "Domain/1.0.0": {
       "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.AspNetCore.Authorization/8.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.AspNetCore.Metadata/8.0.0.0": {
+      "type": "reference",
       "serviceable": false,
       "sha512": ""
     }

@@ -15,27 +15,28 @@ namespace Application.Identity.CommandHandlers;
 
 public class LoginUserHandler : IRequestHandler<LoginUserCommand, OperationResult<IdentityUserDto>>
 {
-    private readonly UserManager<CustumUser> _userManager;
+    private readonly UserServices _userService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly JwtService _jwtService;
     private OperationResult<IdentityUserDto> _result = new();
     private readonly IMapper _mapper;
     
-    public LoginUserHandler(UserManager<CustumUser> userManager, IUnitOfWork unitOfWork, JwtService jwtService, IMapper mapper)
+    
+    public LoginUserHandler( IUnitOfWork unitOfWork, JwtService jwtService, IMapper mapper, UserServices userService)
     {
-        _userManager = userManager;
         _unitOfWork = unitOfWork;
         _jwtService = jwtService;
         _mapper = mapper;
+        _userService = userService;
     }
     public async Task<OperationResult<IdentityUserDto>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
         try
         {
-            CustumUser? user = await _userManager.FindByEmailAsync(request.EmailAddress);
+            CustumUser? user = await _userService.GetUserByEmail(request.EmailAddress);
             if (user == null)
                 _result.AddError(ErrorCode.UserDoesNotExist, "User not found");
-            bool isPasswordValid = await _userManager.CheckPasswordAsync(user, request.Password);
+            bool isPasswordValid = await _userService.CheckPassword(user, request.Password);
             if (!isPasswordValid)
                 _result.AddError(ErrorCode.IncorrectPassword, "Wrong password");
             

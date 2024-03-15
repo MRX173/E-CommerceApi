@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class inialMigration : Migration
+    public partial class AddFirstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -55,6 +55,18 @@ namespace Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Permission",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Permission", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -244,6 +256,31 @@ namespace Infrastructure.Migrations
                         name: "FK_UserPayments_AspNetUsers_CustumUserId",
                         column: x => x.CustumUserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RolePermission",
+                columns: table => new
+                {
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PermissionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserRoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RolePermission", x => new { x.RoleId, x.PermissionId });
+                    table.ForeignKey(
+                        name: "FK_RolePermission_AspNetRoles_UserRoleId",
+                        column: x => x.UserRoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RolePermission_Permission_PermissionId",
+                        column: x => x.PermissionId,
+                        principalTable: "Permission",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -534,6 +571,16 @@ namespace Infrastructure.Migrations
                 column: "ProductCategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RolePermission_PermissionId",
+                table: "RolePermission",
+                column: "PermissionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RolePermission_UserRoleId",
+                table: "RolePermission",
+                column: "UserRoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ShoppingSessions_CustumUserId",
                 table: "ShoppingSessions",
                 column: "CustumUserId");
@@ -581,10 +628,10 @@ namespace Infrastructure.Migrations
                 name: "ProductRates");
 
             migrationBuilder.DropTable(
-                name: "UserPayments");
+                name: "RolePermission");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "UserPayments");
 
             migrationBuilder.DropTable(
                 name: "ShoppingSessions");
@@ -594,6 +641,12 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Permission");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
