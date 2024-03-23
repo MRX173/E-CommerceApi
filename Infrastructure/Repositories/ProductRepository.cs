@@ -19,6 +19,14 @@ public class ProductRepository : IProductRepository
         return await _dbContext.Products.FirstOrDefaultAsync(x => x.Id == productId)!;
     }
 
+    public async Task<List<Product>> GetProductsByCategoryId(Guid categoryId)
+    {
+        return await _dbContext
+            .Products
+            .Where(x => x.ProductCategoryId == categoryId)
+            .ToListAsync();
+    }
+
     public async Task<List<Product>> GetProducts()
     {
         return await _dbContext

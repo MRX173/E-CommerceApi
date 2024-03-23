@@ -6,6 +6,7 @@ namespace Domain.Abstractions;
 public interface IProductRepository
 {
     Task<Product> GetProductDetailsById(Guid productId);
+    Task<List<Product>> GetProductsByCategoryId(Guid categoryId);
     Task<List<Product>> GetProducts();
     Task<List<Product>> GetProductsByCategoryName(string categoryName);
     Task CreateProduct(Product product);
